@@ -1,0 +1,111 @@
+@font-face  {
+    font-family:  Roboto;
+    src: url(../fonts/Roboto-Regular.TTF);
+}
+
+body {
+    font-family: Roboto;
+}
+
+.wrapper-form {
+    width: 500px;
+    margin: 0 auto;
+}
+
+form {
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+.backButtonForm {
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    width: auto; 
+    height: auto;
+    margin: 0; 
+}
+
+.backButton {
+    width: 100%;
+}
+
+label, input {
+    display: block;
+}
+
+label {
+    margin-bottom: 20px;
+}
+
+textarea, input, select  {
+    border: 1px solid grey;
+    margin-bottom: 15px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+textarea:focus, input:focus, select:focus  {
+    outline: 1px solid blue;
+}
+
+textarea {
+    height: 100px;
+    resize: none;
+}
+
+select {
+    width: 200px;
+    padding-right: 20px;
+    background: #fff url('../icons/down-arrow.png') no-repeat right center;
+    background-size: 12px;
+    border: 1px solid grey;
+    appearance: none;
+    white-space: nowrap;
+}
+
+button {
+    font-family: Roboto;
+    border: 1px solid grey;
+    background-color: #f0f0f0;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+button:hover {
+    background-color: #e0e0e0;
+}
+
+.message {
+    display: none;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    font-family: Roboto;
+    font-size: 16px;
+    width: auto;
+    max-width: 300px;
+    box-sizing: border-box;
+    position: fixed;
+    bottom: 10px;
+    right: 40px;
+    z-index: 1000;
+}
+
+.message.error {
+    background-color: #fdd;
+    color: #900;
+    border: 1px solid #900;
+}
+
+.message.show {
+    display: block;
+}
+
+.message.success {
+    background-color: rgb(221, 255, 228);
+    color: rgb(0, 153, 59);
+    border: 1px solid rgb(0, 153, 59);
+}

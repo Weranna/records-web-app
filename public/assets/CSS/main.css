@@ -1,0 +1,42 @@
+@font-face  {
+    font-family:  Roboto;
+    src: url(../fonts/Roboto-Regular.TTF);
+}
+
+body {
+    font-family: Roboto;
+}
+
+table {
+    width: 90%;
+    border: 1px solid #ccc;
+    margin-left: 20px;
+    margin-right: 20px;
+    border-collapse: collapse;
+    white-space: nowrap;
+    font-size: 12px;
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.navButtonForm {
+    width: 200px;
+    margin: 10px 20px;
+}
+
+.navButton {
+    margin: 0 auto;
+    width: 100%;
+}
+
+form {
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-around;
+}
