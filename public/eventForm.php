@@ -12,9 +12,9 @@ require_once '../includes/models/eventformmodel.inc.php';
 </head>
 <body>
 <section class="wrapper-form">
-    <p>DODAJ ZDARZENIE</p>
+    <p class="title">DODAJ ZDARZENIE</p>
     <button class="backButtonForm" onclick="window.location.href='homepage.php';">Wróć</button>
-    <form action="../includes/addeventh.inc.php" method="post" enctype="multipart/form-data" autocomplete="off">
+    <form class="mainForm" action="../includes/addeventh.inc.php" method="post" enctype="multipart/form-data" autocomplete="off">
         <label for="event">Zdarzenie</label>
         <select name="event" id="event">
             <option value="none" <?php echo (($_SESSION['formData']['event'] ?? '') == 'none') ? 'selected' : ''; ?>>Wybierz zdarzenie</option>

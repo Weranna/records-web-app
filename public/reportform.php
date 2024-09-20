@@ -12,9 +12,9 @@ require_once '../includes/models/eventformmodel.inc.php';
 </head>
 <body>
 <section class="wrapper-form">
-    <p>ZGŁOŚ AWARIĘ</p>
+    <p class="title">ZGŁOŚ AWARIĘ</p>
     <button class="backButtonForm" onclick="window.location.href='homepage.php';">Wróć</button>
-    <form action="../includes/addreporth.inc.php" method="post" enctype="multipart/form-data" autocomplete="off">
+    <form class="mainForm"action="../includes/addreporth.inc.php" method="post" enctype="multipart/form-data" autocomplete="off">
         <label for="beginDate">Data rozpoczęcia</label>
         <input type="date" id="beginDate" name="beginDate" value="<?php echo htmlspecialchars($_SESSION['formData']['beginDate'] ?? ''); ?>">
         <br>

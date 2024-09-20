@@ -5,35 +5,75 @@
 
 body {
     font-family: Roboto;
+    background-color: #DDE6ED;
+    margin: 0;
 }
 
 table {
-    width: 50%;
-    border: 1px solid #ccc;
+    width: 70%;
     margin: 0 auto;
     border-collapse: collapse;
     font-size: 12px;
     text-align: center;
+    border: 1.5px solid #27374D;
+    border-radius: 8px;
+    overflow: hidden; 
+}
+
+th {
+    background-color: #27374D;
+    color: white;
+}
+
+tr {
+    background-color: #9DB2BF;
+    font-weight: bold;
+    border: 1.5px solid #27374D;
 }
 
 th, td {
     border: 1px solid #ddd;
-    padding: 8px
+    padding: 8px;
+    white-space: nowrap;
+    text-align: left;
+}
+.nav-container {
+    background-color: #27374D;
+    width: 100%;
+    margin: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    display: flex;
+    height: 80px;
 }
 
-.navButtonForm {
+
+.navForm {
     width: 200px;
-    margin: 10px 5px;
+    justify-content: center;
+    border:none;
+}
+
+.navButton.active {
+    background-color: #526D82;
 }
 
 .navButton {
     margin: 0 auto;
     width: 100%;  
+    height: 100%;
+    background-color: #27374D;
+    border: none;
+    font-size: 20px;
+    color: white;
+    font-weight: bold;
 }
 
-form {
-    border: 1px solid #ccc;
-    box-sizing: border-box;
+.navButton:hover {
+    background-color: #526D82;
+    cursor: pointer;
 }
 
 p {
@@ -47,79 +87,134 @@ p {
     text-align: left;
 }
 .button-container {
+    margin-top: 100px;
     display: flex;
+    gap: 10px;
     justify-content: center;
-    margin-bottom: 30px;
 }
 
-h1 {
-    text-align: center;
+.button-container input {
+    border-radius: 5px; 
+    cursor: pointer;
+    color: white;
+    background-color: #526D82;
+    padding: 8px 15px;
+    font-size: 15px;
+    font-weight: bold;
+    border: none;
+    align-items: center;
+}
+
+.button-container input:hover {
+    background-color: #27374D;
+}
+
+.table-button.active {
+    background-color: #27374D;
 }
 
 .popup {
-    display: none; /* Ukrywa popup domyślnie */
+    display: none;
     position: fixed;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    z-index: 2000;
 }
 
 .popup-content {
-    background: #fff;
-    padding: 20px;
-    border-radius: 8px;
+    background-color: #DDE6ED;
+    padding: 40px;
+    border-radius: 5px;
+    text-align: center;
+    width: 400px;
     position: relative;
-    width: 80%;
-    max-width: 500px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.popupButtons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.popupButtons button {
+    border-radius: 5px; 
+    cursor: pointer;
+    color: white;
+    background-color: #526D82;
+    padding: 8px 15px;
+    font-size: 15px;
+    font-weight: bold;
+    border: none;
+    align-items: center;
+}
+
+#popupMessageDel {
+    font-weight: bold;
 }
 
 .close-btn {
     position: absolute;
     top: 10px;
     right: 15px;
-    font-size: 20px;
+    font-size: 30px;
     cursor: pointer;
 }
 
 .popup-form {
-    padding: 10px;
-    border: 1px solid #ccc;
     box-sizing: border-box;
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+    border-radius: 10px;
 }
 
 .popup-form label {
     margin-bottom: 10px;
     display: block;
+    color: blac;
+    font-weight: bold;
 }
 
 .popup-form input[type="text"] {
-    border: 1px solid grey;
-    margin-bottom: 15px;
+    border: none;
     width: 100%;
     box-sizing: border-box;
     display: block;
+    padding: 10px 20px;
+}
+
+.popup-form select {
+    border: none;
+    width: 100%;
+    box-sizing: border-box;
+    display: block;
+    padding: 10px 20px;
 }
 
 .popup-form input[type="submit"] {
-    font-family: Roboto;
-    border: 1px solid grey;
-    background-color: #f0f0f0;
-    padding: 10px 20px;
+    border-radius: 5px; 
     cursor: pointer;
-    margin-top: 15px;
+    color: white;
+    background-color: #526D82;
+    padding: 8px 15px;
+    font-size: 15px;
+    font-weight: bold;
+    border: none;
+    align-items: center;
 }
 
 .popup-form input[type="submit"]:hover {
-    background-color: #e0e0e0;
+    background-color: #27374D;
 }
 
-input:focus {
-    outline: 1px solid blue;
+input:focus  {
+    outline: 2px solid #27374D;
 }
 
 .message {
@@ -156,4 +251,65 @@ input:focus {
 
 #popupFormContainer {
     text-align: center;
+}
+
+.addButton-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
+#addButton {
+    margin: 0;
+    border-radius: 5px; 
+    border: none;
+    cursor: pointer;
+    color: white;
+    background-color: #526D82;
+    padding: 4px 5px;
+    font-weight: bold;
+}
+
+#addButton:hover {
+    background-color: #27374D;
+}
+
+#addButton i {
+    margin-left: 5px;
+}
+
+#delButton {
+    background-color: #900;
+    color: #fdd;
+}
+
+#delButton:hover {
+    background-color: rgb(100, 0, 0);
+}
+.buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center; 
+    border: none;
+    gap: 5px;
+}
+
+.buttons button,
+.buttons input[type="submit"] {
+    margin: 0;
+    border-radius: 5px; 
+    border: none;
+    cursor: pointer;
+    color: white;
+    background-color: #526D82;
+    padding: 4px 5px;
+    font-weight: bold;
+}
+
+.buttons button:hover,
+.buttons input[type="submit"]:hover {
+    background-color: #27374D;
 }

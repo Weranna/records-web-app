@@ -45,6 +45,9 @@ function delEvent($pdo,$id) {
     $pdo = null;
     $stmt = null;
 
+    $_SESSION['success'] = true;
+    unset($_SESSION['formData']);
+
     header("Location: ../public/homepage.php");
     exit();
 }

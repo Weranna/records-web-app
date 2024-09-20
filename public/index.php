@@ -12,12 +12,11 @@ require_once '../includes/views/loginview.inc.php';
     <title>Records Equipment</title>
 </head>
 <body>
-    <h3 class="title">Logowanie</h3>
-
     <form action="../includes/loginh.inc.php" method="post">
+        <label class="title">Zaloguj się</label>
         <input type="text" id="login" name="login" placeholder="Nazwa użytkownika"  autocomplete="off" value="<?php echo htmlspecialchars($_SESSION['formData']['login'] ?? ''); ?>">
         <input type="password" name="password" placeholder="Hasło">
-        <button>Zaloguj się</button>
+        <button>Potwierdź</button>
     </form>
 </body>
 </html>

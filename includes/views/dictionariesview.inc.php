@@ -83,9 +83,11 @@ function displayTable(PDO $pdo, string $tableName, array $headers): void {
         $stmt = $pdo->query($sql);
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        echo "<h1>" . htmlspecialchars(array_search($tableName, $GLOBALS['tableMapping'])) . "</h1>
-            <div class='button-container'>
-                <button class='addPopupBtn' data-table='" . htmlspecialchars($tableName) . "'>Dodaj</button>
+        echo "<div class='addButton-container'>
+                <button id='addButton'class='addPopupBtn' data-table='" . htmlspecialchars($tableName) . "'>
+                Dodaj
+                <i class='fas fa-plus'></i>
+                </button>
             </div>";
 
         if ($result && count($result) > 0) {
@@ -101,8 +103,8 @@ function displayTable(PDO $pdo, string $tableName, array $headers): void {
                 foreach ($headers[$tableName] as $dbColumn => $header) {
                     echo "<td>" . ($row[$dbColumn] ?? '') . "</td>";
                 }
-                echo "<td> <button class='editPopupBtn' data-table='" . htmlspecialchars($tableName) . "' data-id='" . $row['id'] . "'>Edytuj</button>
-                    <br><button class='delPopupBtn' data-table='" . htmlspecialchars($tableName) . "' data-id='" . $row['id'] . "'>Usuń</button></td></tr>";
+                echo "<td class='buttons'> <button class='editPopupBtn' data-table='" . htmlspecialchars($tableName) . "' data-id='" . $row['id'] . "'>Edytuj</button>
+                    <br><button id='delButton' class='delPopupBtn' data-table='" . htmlspecialchars($tableName) . "' data-id='" . $row['id'] . "'>Usuń</button></td></tr>";
             }
             echo "</table>";
         } else {

@@ -22,6 +22,8 @@ $userType = $_SESSION['user_type'];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Records Equipment</title>
     <link rel="stylesheet" href="assets/css/list.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
 </head>
 <body>
 <script src="assets/scripts/popupEquipDelete.js"></script>
@@ -36,95 +38,123 @@ $userType = $_SESSION['user_type'];
 });
 
 </script>
-<section class="wrapper-main">
 <div id="popup" class="popup">
         <div class="popup-content">
             <p id="popupMessage"></p>
-            <button id="yesBtn">Tak</button>
-            <button id="noBtn">Nie</button>
+            <div class="popupButtons">
+                <button id="yesBtn">Tak</button>
+                <button id="noBtn">Nie</button>
+            </div>
         </div>
-    </div>
-<div class="button-container">
+</div>
+<div class="nav-container">
+    <form method="post" class="navForm">
+        <input type="submit" name="action" value="Sprzęty" class="navButton active">
+    </form>
 <?php if ($userType === 'admin'): ?>
-    <form method="post" class="navButtonForm">
+    <form method="post" class="navForm">
         <input type="submit" name="action" value="Słowniki" class="navButton">
         <input type="hidden" name="redirect" value="dictionaries.php">
     </form>
-    <form method="post" class="navButtonForm">
-            <input type="submit" name="action" value="Dodaj sprzęt" class="navButton">
-            <input type="hidden" name="redirect" value="equipform.php">
-        </form>
         <?php endif; ?>
-        <form action="../includes/logouth.inc.php" method="post"  class="navButtonForm">
+        <form action="../includes/logouth.inc.php" method="post"  class="navForm">
             <button class="navButton">Wyloguj się</button>
         </form>
 </div>
 <div class="filter-container">
-<form class="filter" action="" method="GET">
-    <label for="deviceSelect">Urządzenie:</label>    
-    <select id="deviceSelect" name="device">
-        <option value="none" <?php echo (($_GET['device'] ?? '') == 'none') ? 'selected' : ''; ?>>Dowolne</option>
-        <?php foreach ($devices as $device): ?>
-            <option value="<?php echo htmlspecialchars($device['name']); ?>" <?php echo (($_GET['device'] ?? '') == $device['name']) ? 'selected' : ''; ?>>
-                <?php echo htmlspecialchars($device['name']); ?>
-            </option>
-        <?php endforeach; ?>
-    </select>
+    <form class="filter" action="" method="GET">
+        <div class="filter-element">
+            <label for="deviceSelect">Urządzenie:</label>    
+            <select id="deviceSelect" name="device">
+                <option value="none" <?php echo (($_GET['device'] ?? '') == 'none') ? 'selected' : ''; ?>>Dowolne</option>
+                <?php foreach ($devices as $device): ?>
+                    <option value="<?php echo htmlspecialchars($device['name']); ?>" <?php echo (($_GET['device'] ?? '') == $device['name']) ? 'selected' : ''; ?>>
+                        <?php echo htmlspecialchars($device['name']); ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div class="filter-element">
+            <label for="manufacturerSelect">Producent:</label>    
+            <select id="manufacturerSelect" name="manufacturer">
+                <option value="none" <?php echo (($_GET['manufacturer'] ?? '') == 'none') ? 'selected' : ''; ?>>Dowolne</option>
+                <?php foreach ($manufacturers as $manufacturer): ?>
+                    <option value="<?php echo htmlspecialchars($manufacturer['name']); ?>" <?php echo (($_GET['manufacturer'] ?? '') == $manufacturer['name']) ? 'selected' : ''; ?>>
+                        <?php echo htmlspecialchars($manufacturer['name']); ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
 
-    <label for="manufacturerSelect">Producent:</label>    
-    <select id="manufacturerSelect" name="manufacturer">
-        <option value="none" <?php echo (($_GET['manufacturer'] ?? '') == 'none') ? 'selected' : ''; ?>>Dowolne</option>
-        <?php foreach ($manufacturers as $manufacturer): ?>
-            <option value="<?php echo htmlspecialchars($manufacturer['name']); ?>" <?php echo (($_GET['manufacturer'] ?? '') == $manufacturer['name']) ? 'selected' : ''; ?>>
-                <?php echo htmlspecialchars($manufacturer['name']); ?>
-            </option>
-        <?php endforeach; ?>
-    </select>
+        <?php if ($userType === 'admin'): ?>
+        <div class="filter-element">
+            <label for="locationSelect">Lokalizacja:</label>    
+            <select id="locationSelect" name="location">
+                <option value="none" <?php echo (($_GET['location'] ?? '') == 'none') ? 'selected' : ''; ?>>Dowolne</option>
+                <?php foreach ($locations as $location): ?>
+                    <option value="<?php echo htmlspecialchars($location['name']); ?>" <?php echo (($_GET['location'] ?? '') == $location['name']) ? 'selected' : ''; ?>>
+                        <?php echo htmlspecialchars($location['name']); ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <?php endif; ?>
+
+        <div class="filter-element">
+            <label for="supplierSelect">Dostawca:</label>    
+            <select id="supplierSelect" name="supplier">
+                <option value="none" <?php echo (($_GET['supplier'] ?? '') == 'none') ? 'selected' : ''; ?>>Dowolne</option>
+                <?php foreach ($suppliers as $supplier): ?>
+                    <option value="<?php echo htmlspecialchars($supplier['name']); ?>" <?php echo (($_GET['supplier'] ?? '') == $supplier['name']) ? 'selected' : ''; ?>>
+                        <?php echo htmlspecialchars($supplier['name']); ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+
+        <div class="filter-element">
+            <label for="statusSelect">Status:</label>    
+            <select id="statusSelect" name="status">
+                <option value="none" <?php echo (($_GET['status'] ?? '') == 'none') ? 'selected' : ''; ?>>Dowolne</option>
+                <?php foreach ($statuses as $status): ?>
+                    <option value="<?php echo htmlspecialchars($status['name']); ?>" <?php echo (($_GET['status'] ?? '') == $status['name']) ? 'selected' : ''; ?>>
+                        <?php echo htmlspecialchars($status['name']); ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+                    
+        <div class="filter-element">
+            <label for="purchaseDate">Data zakupu:</label>    
+            <input type="date" id="purchaseDate" name="purchaseDate" value="<?php echo htmlspecialchars($_GET['purchaseDate'] ?? ''); ?>">
+        </div>
+
+        <div class="filter-element">
+            <label for="warrantyDate">Data gwarancji:</label>    
+            <input type="date" id="warrantyDate" name="warrantyDate" value="<?php echo htmlspecialchars($_GET['warrantyDate'] ?? ''); ?>">
+        </div>
+
+        <div class="filter-element">
+            <label for="reviewDate">Data przeglądu:</label>    
+            <input type="date" id="reviewDate" name="reviewDate" value="<?php echo htmlspecialchars($_GET['reviewDate'] ?? ''); ?>">
+        </div>
+        <div class="button-container">
+            <input type="submit" name="action" value="Filtruj" class="filter-button">
+            <button type="button" id="resetBtn" class="filter-button">Resetuj</button>
+        </div>
+        </div>
+    </form>
     <?php if ($userType === 'admin'): ?>
-    <label for="locationSelect">Lokalizacja:</label>    
-    <select id="locationSelect" name="location">
-        <option value="none" <?php echo (($_GET['location'] ?? '') == 'none') ? 'selected' : ''; ?>>Dowolne</option>
-        <?php foreach ($locations as $location): ?>
-            <option value="<?php echo htmlspecialchars($location['name']); ?>" <?php echo (($_GET['location'] ?? '') == $location['name']) ? 'selected' : ''; ?>>
-                <?php echo htmlspecialchars($location['name']); ?>
-            </option>
-        <?php endforeach; ?>
-    </select>
-    <?php endif; ?>
-    <label for="supplierSelect">Dostawca:</label>    
-    <select id="supplierSelect" name="supplier">
-        <option value="none" <?php echo (($_GET['supplier'] ?? '') == 'none') ? 'selected' : ''; ?>>Dowolne</option>
-        <?php foreach ($suppliers as $supplier): ?>
-            <option value="<?php echo htmlspecialchars($supplier['name']); ?>" <?php echo (($_GET['supplier'] ?? '') == $supplier['name']) ? 'selected' : ''; ?>>
-                <?php echo htmlspecialchars($supplier['name']); ?>
-            </option>
-        <?php endforeach; ?>
-    </select>
-
-    <label for="statusSelect">Status:</label>    
-    <select id="statusSelect" name="status">
-        <option value="none" <?php echo (($_GET['status'] ?? '') == 'none') ? 'selected' : ''; ?>>Dowolne</option>
-        <?php foreach ($statuses as $status): ?>
-            <option value="<?php echo htmlspecialchars($status['name']); ?>" <?php echo (($_GET['status'] ?? '') == $status['name']) ? 'selected' : ''; ?>>
-                <?php echo htmlspecialchars($status['name']); ?>
-            </option>
-        <?php endforeach; ?>
-    </select>
-
-    <label for="purchaseDate">Data zakupu:</label>    
-    <input type="date" id="purchaseDate" name="purchaseDate" value="<?php echo htmlspecialchars($_GET['purchaseDate'] ?? ''); ?>">
-
-    <label for="warrantyDate">Data gwarancji:</label>    
-    <input type="date" id="warrantyDate" name="warrantyDate" value="<?php echo htmlspecialchars($_GET['warrantyDate'] ?? ''); ?>">
-
-    <label for="reviewDate">Data przeglądu:</label>    
-    <input type="date" id="reviewDate" name="reviewDate" value="<?php echo htmlspecialchars($_GET['reviewDate'] ?? ''); ?>">
-
-    <input type="submit" name="action" value="Filtruj">
-    <button type="button" id="resetBtn">Resetuj</button>
+        <form method="post" class="buttons">
+    <button type="submit" name="action">
+    Dodaj sprzęt
+        <i class="fas fa-plus"></i>
+    </button>
+    <input type="hidden" name="redirect" value="equipform.php">
 </form>
 
-</div>
+
+        <?php endif; ?>
 <table>
 <tr>
     <th>Opcje</th>
@@ -203,7 +233,6 @@ $userType = $_SESSION['user_type'];
 </tr>
     <?php require_once '../includes/views/homepageview.inc.php';?>
    </table>
-   </section>
    <script>
         document.querySelectorAll('.showEventsBtn').forEach(button => {
             button.addEventListener('click', function() {

@@ -21,16 +21,16 @@ if ($stmt->rowCount() > 0) {
 
         // Wyświetlanie danych sprzętu
         echo "<tr id='device-" . $row["nrInv"] . "'>
-        <td class='fixed-td'>";
+        <td class='buttons'>";
 
         if ($userType === 'admin') {
-            echo "<a href='equipformedit.php?nrInv=" . $row["nrInv"] . "'><button>Edytuj</button></a><br>";
+            echo "<a href='equipformedit.php?nrInv=" . $row["nrInv"] . "'><button>Edytuj</button></a>";
         }
 
-        echo "<button class='showEventsBtn' data-nrInv='" . $row["nrInv"] . "'>Zdarzenia</button><br>";
+        echo "<button class='showEventsBtn' data-nrInv='" . $row["nrInv"] . "'>Zdarzenia</button>";
 
         if ($userType === 'admin') {
-            echo "<button class='showPopupBtn' data-nrInv='" . $row["nrInv"] . "'>Usuń</button>";
+            echo "<button id='delButton' class='showPopupBtn' data-nrInv='" . $row["nrInv"] . "'>Usuń</button>";
         }
 
         echo "</td><td>" . $row["nrInv"] . "</td><td class='fixed-td'>" . 
@@ -84,7 +84,7 @@ if ($stmt->rowCount() > 0) {
                     echo "<td>Brak</td>";
                 }
                 if ($userType === 'admin') {
-                    echo "<td><button class='showPopupBtn' data-id='" . $event["id"] . "'>Usuń</button></td></tr>";
+                    echo "<td class='buttons'><button id='delButton' class='showPopupBtn' data-id='" . $event["id"] . "'>Usuń</button></td></tr>";
                 }
             }
         } else {
@@ -103,13 +103,12 @@ if ($stmt->rowCount() > 0) {
 
         unset($_SESSION['errors']);
 
-        echo "' class='navButtonForm'>
-        <input type='hidden' name='nrInv' value='" . $row["nrInv"] . "'>";
+        echo "' class='buttons'> <input type='hidden' name='nrInv' value='" . $row["nrInv"] . "'>";
 
         if ($userType === 'admin') {
-            echo "<input type='submit' name='action' value='Dodaj zdarzenie' class='navButton'>";
+            echo "<input type='submit' name='action' value='Dodaj zdarzenie' class='buttons'>";
         } else {
-            echo "<input type='submit' name='action' value='Zgłoś awarię' class='navButton'>";
+            echo "<input type='submit' name='action' value='Zgłoś awarię' class='buttons' id='delButton'>";
         }
 
         echo "</form></td></tr>";

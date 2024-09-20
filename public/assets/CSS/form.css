@@ -5,6 +5,8 @@
 
 body {
     font-family: Roboto;
+    background-color: #DDE6ED;
+    margin: 0;
 }
 
 .wrapper-form {
@@ -12,10 +14,16 @@ body {
     margin: 0 auto;
 }
 
-form {
-    padding: 20px;
-    border: 1px solid #ccc;
+.mainForm {
     box-sizing: border-box;
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+    border-radius: 10px;
+    background-color: #27374D;
+    padding: 40px;
+    color: white;
+    margin-bottom: 20px;
 }
 
 .backButtonForm {
@@ -28,26 +36,43 @@ form {
 }
 
 .backButton {
-    width: 100%;
+    margin: 0;
+    border-radius: 5px; 
+    border: none;
+    cursor: pointer;
+    color: white;
+    background-color: #526D82;
+    padding: 10px 15px;
+    font-weight: bold;
+    font-size: 20px;
 }
 
-label, input {
+.backButton:hover {
+    background-color: #9DB2BF;
+    color: black;
+}
+
+input {
     display: block;
 }
 
 label {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    display: block;
+    color: blac;
+    font-weight: bold;
 }
 
 textarea, input, select  {
-    border: 1px solid grey;
-    margin-bottom: 15px;
+    border: none;
     width: 100%;
     box-sizing: border-box;
+    display: block;
+    padding: 10px 20px;
 }
 
 textarea:focus, input:focus, select:focus  {
-    outline: 1px solid blue;
+    outline: 2px solid #27374D;
 }
 
 textarea {
@@ -56,26 +81,28 @@ textarea {
 }
 
 select {
-    width: 200px;
-    padding-right: 20px;
-    background: #fff url('../icons/down-arrow.png') no-repeat right center;
-    background-size: 12px;
-    border: 1px solid grey;
-    appearance: none;
-    white-space: nowrap;
+    border: none;
+    width: 100%;
+    box-sizing: border-box;
+    display: block;
+    padding: 10px 20px;
 }
 
 button {
-    font-family: Roboto;
-    border: 1px solid grey;
-    background-color: #f0f0f0;
-    padding: 10px 20px;
+    border-radius: 5px; 
     cursor: pointer;
-    margin-top: 15px;
+    color: white;
+    background-color: #526D82;
+    padding: 8px 15px;
+    font-size: 15px;
+    font-weight: bold;
+    border: none;
+    align-items: center;
 }
 
 button:hover {
-    background-color: #e0e0e0;
+    background-color: #9DB2BF;
+    color: black;
 }
 
 .message {
@@ -109,3 +136,9 @@ button:hover {
     color: rgb(0, 153, 59);
     border: 1px solid rgb(0, 153, 59);
 }
+ .title {
+    font-weight: bold;
+    text-align: center;
+    font-size: 30px;
+    margin-top: 20px;
+ }

@@ -12,11 +12,11 @@ require_once '../includes/views/equipformview.inc.php';
 </head>
 <body>
 <section class="wrapper-form">
-    <p>DODAJ SPRZĘT</p>
+    <p class="title">DODAJ SPRZĘT</p>
     <form method="post" class="backButtonForm">
         <input type="submit" name="redirect" value="Wróć" class="backButton">
     </form>
-    <form action="../includes/addequiph.inc.php" method="post" enctype="multipart/form-data" autocomplete="off">
+    <form class="mainForm" action="../includes/addequiph.inc.php" method="post" enctype="multipart/form-data" autocomplete="off">
         <label for="serialNumber">Numer seryjny</label>
         <input type="text" id="serialNumber" name="serNumber" placeholder="Numer seryjny" value="<?php echo htmlspecialchars($_SESSION['formData']['serNumber'] ?? ''); ?>">
         <br>

@@ -12,11 +12,11 @@ require_once '../includes/views/equipformview.inc.php';
 </head>
 <body>
 <section class="wrapper-form">
-    <p>EDYTUJ SPRZĘT</p>
+    <p class="title">EDYTUJ SPRZĘT</p>
     <form method="post" class="backButtonForm">
         <input type="submit" name="redirect" value="Wróć" class="backButton">
     </form>
-    <form action="../includes/editequiph.inc.php" method="post" enctype="multipart/form-data" autocomplete="off">
+    <form class="mainForm" action="../includes/editequiph.inc.php" method="post" enctype="multipart/form-data" autocomplete="off">
         <!-- Ukryte pole nrInv -->
         <input type="hidden" name="nrInv" value="<?php echo htmlspecialchars($nrInv); ?>">
 
