@@ -7,7 +7,7 @@ require_once '../includes/models/eventformmodel.inc.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Records Equipment</title>
+    <title>Ewidencja sprzętów</title>
     <link rel="stylesheet" href="assets/css/form.css">
 </head>
 <body>
