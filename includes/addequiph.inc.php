@@ -58,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         addEquip($pdo,$serNumber,$device,$manufacturer,$model,$location,$supplier,$purchaseDate,$warrantyDate,$reviewDate,$value,$status,$notes,$filePaths);
     
     } catch (PDOException $e) {
-        $_SESSION['errors'] = $e->getMessage();
+        $_SESSION['errors'] []= $e->getMessage();
             exit();
         }
     }

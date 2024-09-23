@@ -85,7 +85,7 @@ if ($stmt->rowCount() > 0) {
                         <th>Data rozpoczęcia</th>
                         <th>Data zakończenia</th>";
 
-        if ($userType === 'admin' && $events) {
+        if ($events) {
             echo "<th>Opcje</th>";
         }
 
@@ -112,8 +112,10 @@ if ($stmt->rowCount() > 0) {
                     
                 if ($userType === 'admin') {
                     echo "<td class='buttons'><button id='delButton' class='showPopupBtn' data-id='" . $event["id"] . "'>Usuń</button>";
-                }
                     echo "<button id='eventPhotoButton' data-id='" . $event["id"] . "'>Podgląd</button></td></tr>";
+                } else {
+                    echo "<td class='buttons'><button id='eventPhotoButton' data-id='" . $event["id"] . "'>Podgląd</button></td></tr>";
+                 }
                     
                     // Dodanie wiersza dla zdjęć
                     echo "<tr id='photos-row-" . $event["id"] . "' class='photos-row hidden'>

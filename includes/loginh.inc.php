@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
     } catch (PDOException $e) { 
 
-        $_SESSION['errors'] = $e->getMessage();
+        $_SESSION['errors'] []= $e->getMessage();
     }
 } else {
     header("Location: ../public/index.php");

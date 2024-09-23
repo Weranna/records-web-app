@@ -11,7 +11,7 @@ if (isset($_GET['id'])) {
         delEvent($pdo,$id);
 
     } catch (PDOException $e) {
-        $_SESSION['errors'] = $e->getMessage();
+        $_SESSION['errors'] []= $e->getMessage();
     }
 } else {
     header("Location: ../public/homepage.php");

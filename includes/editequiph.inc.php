@@ -56,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         editEquip($pdo,$serNumber, $device, $manufacturer, $model, $location, $supplier, $purchaseDate, $warrantyDate, $reviewDate, $value, $status, $notes, $nrInv);
         
     } catch (PDOException $e) {
-        $_SESSION['errors'] = $e->getMessage();
+        $_SESSION['errors'][] = $e->getMessage();
         header("Location: ../public/equipformedit.php?nrInv=$nrInv");
         exit();
         }

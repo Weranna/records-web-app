@@ -33,7 +33,7 @@ function handleFile() {
             
             // Sprawdzenie rozmiaru i typu MIME
             if (!in_array($mimeType, $allowedMimeTypes) || $fileSize > $maxFileSize) {
-                $_SESSION['errors'] = 'Niepoprawny typ lub zbyt duży plik: ' . htmlspecialchars($fileName);
+                $_SESSION['errors'] []= 'Niepoprawny typ lub zbyt duży plik: ' . htmlspecialchars($fileName);
                 header("Location: ../public/eventform.php");
                 exit();
             }
@@ -47,7 +47,7 @@ function handleFile() {
 
             // Przeniesienie pliku do katalogu docelowego
             if (!move_uploaded_file($fileTmpPath, $destPath)) {
-                $_SESSION['errors'] = 'Wystąpił problem podczas przesyłania pliku: ' . htmlspecialchars($fileName);
+                $_SESSION['errors'] []= 'Wystąpił problem podczas przesyłania pliku: ' . htmlspecialchars($fileName);
                 header("Location: ../public/eventform.php");
                 exit();
             }

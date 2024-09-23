@@ -44,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         addEvent($pdo,$nrInv, $event, $beginDate, $endDate, $description, $filePath);
     
     } catch (PDOException $e) {
-        $_SESSION['errors'] = $e->getMessage();
+        $_SESSION['errors'] []= $e->getMessage();
         }
     }
  else {

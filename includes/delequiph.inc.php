@@ -11,7 +11,7 @@ if (isset($_GET['nrInv'])) {
         delEquip($pdo, $nrInv);
 
     } catch (PDOException $e) {
-        $_SESSION['errors'] = $e->getMessage();
+        $_SESSION['errors'] []= $e->getMessage();
             exit();
     }
 } else {
