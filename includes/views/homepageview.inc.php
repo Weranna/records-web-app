@@ -14,10 +14,16 @@ if ($stmt->rowCount() > 0) {
         $formattedReviewDate = $reviewDate->format('d.m.Y');
         
         // Pobierz zdarzenia dla danego nrInv
-        $eventSql = "SELECT id, name, beginDate, endDate, description, file FROM equip_events WHERE equipId = :nrInv";
+        $eventSql = "SELECT id, name, beginDate, endDate, description FROM equip_events WHERE equipId = :nrInv";
         $eventStmt = $pdo->prepare($eventSql);
         $eventStmt->execute([':nrInv' => $row["nrInv"]]);
         $events = $eventStmt->fetchAll(PDO::FETCH_ASSOC);
+
+         // Pobieranie zdjęć
+         $photoSql = "SELECT file_path FROM files WHERE nrInv = :nrInv";
+         $photoStmt = $pdo->prepare($photoSql);
+         $photoStmt->execute([':nrInv' => $row["nrInv"]]);
+         $photos = $photoStmt->fetchAll(PDO::FETCH_COLUMN);
 
         // Wyświetlanie danych sprzętu
         echo "<tr id='device-" . $row["nrInv"] . "'>
@@ -27,7 +33,8 @@ if ($stmt->rowCount() > 0) {
             echo "<a href='equipformedit.php?nrInv=" . $row["nrInv"] . "'><button>Edytuj</button></a>";
         }
 
-        echo "<button class='showEventsBtn' data-nrInv='" . $row["nrInv"] . "'>Zdarzenia</button>";
+        echo "<button class='showEventsBtn' data-nrInv='" . $row["nrInv"] . "'>Zdarzenia</button>
+        <button class='showFilesBtn' data-nrInv='" . $row["nrInv"] . "'>Podgląd</button>";
 
         if ($userType === 'admin') {
             echo "<button id='delButton' class='showPopupBtn' data-nrInv='" . $row["nrInv"] . "'>Usuń</button>";
@@ -46,6 +53,28 @@ if ($stmt->rowCount() > 0) {
         $row["value"] . "zł</td><td class='fixed-td'>" . 
         $row["status"] . "</td></tr>";
 
+        // Dodanie wiersza dla zdjęć
+        echo "<tr id='photos-row-" . $row["nrInv"] . "' class='photos-row hidden'>
+        <td colspan='14'>
+            <div class='photos-section'>";
+            if ($photos) {
+                echo "<p>Zdjęcia:</p><div class='photos'>";
+                foreach ($photos as $photo) {
+                    echo "<img src='" . htmlspecialchars($photo) . "' alt='Zdjęcie sprzętu' class='equipment-photo'>";
+                }
+                echo "</div>";
+            } else {
+                echo "<p>Brak zdjęć.</p>";
+            }
+            echo "</div>
+            <div>";
+            if ($row['notes']) {
+               echo "<p>Uwagi:</p>
+               <div class='notes'>" . $row["notes"] . "</div>";
+            } else {
+                echo "<p>Brak uwag.</p>";
+            }
+            echo "</div></td></tr>";
 
         // Dodanie wiersza dla zdarzeń
         echo "<tr id='events-row-" . $row["nrInv"] . "' class='events-row hidden'>
@@ -54,11 +83,9 @@ if ($stmt->rowCount() > 0) {
                     <tr>
                         <th>Nazwa</th>
                         <th>Data rozpoczęcia</th>
-                        <th>Data zakończenia</th>
-                        <th>Opis</th>
-                        <th>Plik</th>";
+                        <th>Data zakończenia</th>";
 
-        if ($userType === 'admin') {
+        if ($userType === 'admin' && $events) {
             echo "<th>Opcje</th>";
         }
 
@@ -72,20 +99,52 @@ if ($stmt->rowCount() > 0) {
                 $endDate = new DateTime($event["endDate"]);
                 $formattedEndDate = $endDate->format('d.m.Y');
 
+                // Pobieranie plików
+                $fileSql = "SELECT file_path FROM files_events WHERE eventId = :id";
+                $fileStmt = $pdo->prepare($fileSql);
+                $fileStmt->execute([':id' => $event["id"]]);
+                $files = $fileStmt->fetchAll(PDO::FETCH_COLUMN);
+
                 echo "<tr>
                     <td>" . htmlspecialchars($event["name"]) . "</td>
                     <td>$formattedBeginDate</td>
-                    <td>$formattedEndDate</td>
-                    <td>" . htmlspecialchars($event["description"]) . "</td>";
-
-                if (!empty($event["file"])) {
-                    echo "<td><a href='uploads/" . htmlspecialchars($event["file"]) . "' target='_blank'>Pobierz</a></td>";
-                } else {
-                    echo "<td>Brak</td>";
-                }
+                    <td>$formattedEndDate</td>";
+                    
                 if ($userType === 'admin') {
-                    echo "<td class='buttons'><button id='delButton' class='showPopupBtn' data-id='" . $event["id"] . "'>Usuń</button></td></tr>";
+                    echo "<td class='buttons'><button id='delButton' class='showPopupBtn' data-id='" . $event["id"] . "'>Usuń</button>";
                 }
+                    echo "<button id='eventPhotoButton' data-id='" . $event["id"] . "'>Podgląd</button></td></tr>";
+                    
+                    // Dodanie wiersza dla zdjęć
+                    echo "<tr id='photos-row-" . $event["id"] . "' class='photos-row hidden'>
+                    <td colspan='14'>
+                        <div class='photos-section'>";
+                        if ($files) {
+                            echo "<p>Pliki:</p><div class='files'>"; // Zmiana z 'photos' na 'files'
+                            foreach ($files as $file) {
+                                // Zakładam, że plik jest obrazem jeśli jego rozszerzenie to jpg, png itp.
+                                $fileExtension = pathinfo($file, PATHINFO_EXTENSION);
+                                if (in_array($fileExtension, ['jpg', 'jpeg', 'png', 'gif'])) {
+                                    echo "<img src='" . htmlspecialchars($file) . "' alt='Zdjęcie sprzętu' class='equipment-photo'>";
+                                } else {
+                                    // Wyświetl ikonę pliku
+                                    echo "<a href='" . htmlspecialchars($file) . "' target='_blank'>
+                                        <i class='fas fa-file'></i> " . htmlspecialchars(basename($file)) . "
+                                    </a>"; // Upewnij się, że masz Font Awesome załadowane
+                                }
+                            }
+                            echo "</div>";
+                        } else {
+                            echo "<p>Brak plików.</p>";
+                        }
+                        echo "</div>
+                        <div>";
+                        if ($row['notes']) {
+                            echo "<p>Opis:</p>
+                            <div class='notes'>" . $event["description"] . "</div>";
+                        }
+                        echo "</div></td></tr>";
+
             }
         } else {
             echo "<tr><td colspan='5'>Brak zdarzeń</td></tr>";
@@ -103,7 +162,7 @@ if ($stmt->rowCount() > 0) {
 
         unset($_SESSION['errors']);
 
-        echo "' class='buttons'> <input type='hidden' name='nrInv' value='" . $row["nrInv"] . "'>";
+        echo "' class='buttons'> <input type='hidden' name='nrInv' value='" . $row['nrInv'] . "'>";
 
         if ($userType === 'admin') {
             echo "<input type='submit' name='action' value='Dodaj zdarzenie' class='buttons'>";

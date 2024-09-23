@@ -107,7 +107,7 @@ $sortOrder = $sortOrder === 'DESC' ? 'DESC' : 'ASC';
         $whereSql = 'WHERE ' . implode(' AND ', $whereClauses);
     }
     
-    $sql = "SELECT nrInv, nrSer, device, manufacturer, model, location, supplier, purchaseDate, warrantyDate, reviewDate, value, status 
+    $sql = "SELECT nrInv, nrSer, device, manufacturer, model, location, supplier, purchaseDate, warrantyDate, reviewDate, value, status, notes 
             FROM equipments 
             $whereSql
             ORDER BY $sortColumn $sortOrder";

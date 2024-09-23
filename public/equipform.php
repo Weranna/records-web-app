@@ -86,7 +86,7 @@ require_once '../includes/views/equipformview.inc.php';
         </select>
         <br>
         <label for="photo">Zdjęcie</label>
-        <input type="file" id="photo" name="photo" accept="image/*">
+        <input type="file" id="photos" name="photos[]" accept="image/*" multiple>
         <br>
         <label for="notes">Uwagi</label>
         <textarea name="notes" id="notes" placeholder="Uwagi"><?php echo htmlspecialchars($_SESSION['formData']['notes'] ?? ''); ?></textarea>

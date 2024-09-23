@@ -19,10 +19,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $beginDate = htmlspecialchars($_POST['beginDate']);
     $endDate = htmlspecialchars($_POST['endDate']);
     $description = htmlspecialchars($_POST['description']);
+    
+    if (!$nrInv) {
+        $_SESSION['errors'] [] = 'pusto';
+        header("Location: ../public/eventform.php");
+        exit();
+     }
 
     // Plik
-    $filePath = handleFile();
-    
+    $filePaths = handleFile();
+
     // Sprawdzenie, czy pola są puste
     $errors = isInputEmpty($event,$beginDate,$endDate,$description);
 
@@ -42,10 +48,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
         // Wysłanie danych do bazy danych
         require_once "config/dbh.inc.php";
-        addEvent($pdo,$nrInv, $event, $beginDate, $endDate, $description, $filePath);
+        addEvent($pdo,$nrInv, $event, $beginDate, $endDate, $description, $filePaths);
     
     } catch (PDOException $e) {
-        $_SESSION['errors'] = $e->getMessage();
+        $_SESSION['errors'] [] = $e->getMessage();
+        echo $e->getMessage();
         }
     }
  else {

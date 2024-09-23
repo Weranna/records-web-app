@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $notes = htmlspecialchars($_POST["notes"]);
 
     // Plik graficzny
-    $filePath = handlePhoto();
+    $filePaths = handlePhoto();
     
     // Sprawdzenie, czy pola są puste
     $errors = isInputEmpty($serNumber,$device,$manufacturer,$model,$location,$supplier,$purchaseDate,$warrantyDate,$reviewDate,$value,$status);
@@ -55,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
         require_once "config/dbh.inc.php";
         // Wysłanie danych do bazy danych
-        addEquip($pdo,$serNumber,$device,$manufacturer,$model,$location,$supplier,$purchaseDate,$warrantyDate,$reviewDate,$value,$status,$notes,$filePath);
+        addEquip($pdo,$serNumber,$device,$manufacturer,$model,$location,$supplier,$purchaseDate,$warrantyDate,$reviewDate,$value,$status,$notes,$filePaths);
     
     } catch (PDOException $e) {
         $_SESSION['errors'] = $e->getMessage();

@@ -55,7 +55,7 @@ th, td {
 select, input {
     margin-left: 5px;
     border-radius: 2px;
-    border:#9DB2BF;
+    border: #9DB2BF;
 }
 
 .nav-container {
@@ -70,11 +70,10 @@ select, input {
     height: 80px;
 }
 
-
 .navForm {
     width: 200px;
     justify-content: center;
-    border:none;
+    border: none;
 }
 
 .navButton.active {
@@ -212,6 +211,7 @@ p {
 #delButton:hover {
     background-color: rgb(100, 0, 0);
 }
+
 .buttons {
     display: flex;
     flex-direction: column;
@@ -261,6 +261,7 @@ p {
 .popupButtons button:hover {
     background-color: #27374D;
 }
+
 .filter-button {
     border-radius: 5px; 
     cursor: pointer;
@@ -276,6 +277,7 @@ p {
 .filter-button i {
     margin-left: 5px;
 }
+
 .filter-container {
     display: flex;
     flex-wrap: wrap;
@@ -292,12 +294,10 @@ p {
     margin-bottom: 20px;
 }
 
-
 .filter-button:hover {
     background-color: #526D82;
-    color: black
+    color: black;
 }
-
 
 .buttons button,
 .buttons input[type="submit"] {
@@ -383,4 +383,52 @@ p {
 
 .user-info {
     margin-bottom: 10px;
+}
+
+.photos-section {
+    margin-top: 20px;
+}
+
+.photos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.equipment-photo {
+    max-width: 150px;
+    margin: 5px;
+    border: 1px solid #ccc; 
+    border-radius: 4px;
+}
+
+.notes {
+    margin: 0 auto;
+    text-align: center;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal; 
+}
+
+.photos-section img {
+    max-width: 100px;
+    margin: 5px;
+}
+
+.files {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; 
+}
+
+.files a {
+    margin: 5px; 
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    color: #27374D;
+}
+
+.files a i {
+    margin-right: 5px; 
 }

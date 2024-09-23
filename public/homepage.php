@@ -22,6 +22,7 @@ $userType = $_SESSION['user_type'];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ewidencja sprzętów</title>
     <link rel="stylesheet" href="assets/css/list.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
 </head>
@@ -275,6 +276,41 @@ $userType = $_SESSION['user_type'];
             }
         });
     });
+    document.querySelectorAll('.showFilesBtn').forEach(button => {
+    button.addEventListener('click', function() {
+        const nrInv = this.getAttribute('data-nrInv');
+        const photosRow = document.getElementById(`photos-row-${nrInv}`);
+        
+        // Ukrywanie innych sekcji zdjęć
+        document.querySelectorAll('.photos-row').forEach(row => {
+            if (row !== photosRow) row.classList.add('hidden');
+        });
+
+        // Przełączanie widoczności sekcji zdjęć
+        photosRow.classList.toggle('hidden');
+    });
+});
+document.addEventListener('DOMContentLoaded', function() {
+        // Pobierz wszystkie przyciski podglądu
+        const buttons = document.querySelectorAll('#eventPhotoButton');
+
+        buttons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Pobranie eventId z atrybutu data-id
+                const eventId = this.getAttribute('data-id');
+                const photoRow = document.getElementById('photos-row-' + eventId);
+                
+                // Przełączanie widoczności
+                if (photoRow.classList.contains('hidden')) {
+                    photoRow.classList.remove('hidden');
+                } else {
+                    photoRow.classList.add('hidden');
+                }
+            });
+        });
+    });
+
+
     </script>
 </body>
 </html>

@@ -22,34 +22,40 @@ function isInputEmpty($serNumber,$device,$manufacturer,$model,$location,$supplie
 
 }
 
-function handlePhoto() {
-    if (isset($_FILES['photo']) && $_FILES['photo']['error'] == UPLOAD_ERR_OK) {
-        $fileTmpPath = $_FILES['photo']['tmp_name'];
-        $fileName = $_FILES['photo']['name'];
-        $fileNameCmps = explode('.', $fileName);
-        $fileExtension = strtolower(end($fileNameCmps));
+function handlePhoto(): array {
+    $filePaths = [];
     
-        $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
-        if (!in_array($fileExtension, $allowedExtensions)) {
-            $_SESSION['errors'] = 'Nieprawidłowy format pliku. Dozwolone są tylko pliki jpg, jpeg, png, gif.';
-            header("Location: ../public/equipform.php");
-            exit();
+    if (isset($_FILES['photos']) && $_FILES['photos']['error'][0] !== UPLOAD_ERR_NO_FILE) {
+        $files = $_FILES['photos'];
+        
+        for ($i = 0; $i < count($files['name']); $i++) {
+            if ($files['error'][$i] === UPLOAD_ERR_OK) {
+                $fileTmpPath = $files['tmp_name'][$i];
+                $fileName = $files['name'][$i];
+                $fileNameCmps = explode('.', $fileName);
+                $fileExtension = strtolower(end($fileNameCmps));
+
+                $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+                if (!in_array($fileExtension, $allowedExtensions)) {
+                    $_SESSION['errors'][] = 'Nieprawidłowy format pliku: ' . $fileName;
+                    continue;
+                }
+
+                // Tworzenie unikalnej nazwy pliku (z oryginalną nazwą)
+                $uploadDir = '../public/assets/uploads/';
+                // Użycie czasu jako prefiksu
+                $timestamp = time();
+                $newFileName = $timestamp . '_' . basename($fileName);
+                $destPath = $uploadDir . $newFileName;
+
+                if (move_uploaded_file($fileTmpPath, $destPath)) {
+                    $filePaths[] = $destPath; // Dodaj ścieżkę do tablicy
+                } else {
+                    $_SESSION['errors'][] = 'Wystąpił problem podczas przesyłania pliku: ' . $fileName;
+                }
+            }
         }
-    
-        $uploadDir = '../public/assets/uploads/';
-        $newFileName = md5(time() . $fileName) . '.' . $fileExtension; // Unikalna nazwa pliku
-        $destPath = $uploadDir . $newFileName;
-    
-        if (!move_uploaded_file($fileTmpPath, $destPath)) {
-            $_SESSION['errors'] = 'Wystąpił problem podczas przesyłania pliku.';
-            header("Location: ../public/equipform.php");
-            exit();
-        }
-    
-        $filePath = $destPath;
-    } else {
-        $filePath = null;
     }
 
-    return $filePath;
+    return $filePaths;
 }
