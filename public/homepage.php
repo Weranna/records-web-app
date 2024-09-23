@@ -36,7 +36,6 @@ $userType = $_SESSION['user_type'];
         });
     }
 });
-
 </script>
 <div id="popup" class="popup">
         <div class="popup-content">
@@ -57,9 +56,23 @@ $userType = $_SESSION['user_type'];
         <input type="hidden" name="redirect" value="dictionaries.php">
     </form>
         <?php endif; ?>
-        <form action="../includes/logouth.inc.php" method="post"  class="navForm">
-            <button class="navButton">Wyloguj się</button>
-        </form>
+        <div class="user-menu">
+            <button id="accountButton" class="navButton">Konto</button>
+            <div id="accountPopup" class="hidden">
+                <div class="user-popup-content">
+                    <div class="user-info">
+                        <strong>Użytkownik:</strong> <?php echo htmlspecialchars($_SESSION['login']); ?>
+                    </div>
+                    <div class="user-info">
+                        <strong>Lokalizacja:</strong> <?php echo htmlspecialchars($_SESSION['user_location']); ?>
+                    </div>
+                    <form action="../includes/logouth.inc.php" method="post" class="userForm">
+                        <button type="submit">Wyloguj</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
 </div>
 <div class="filter-container">
     <form class="filter" action="" method="GET">
@@ -245,6 +258,23 @@ $userType = $_SESSION['user_type'];
                 }
             });
         });
+        document.addEventListener('DOMContentLoaded', function() {
+        var accountButton = document.getElementById('accountButton');
+        var accountPopup = document.getElementById('accountPopup');
+        
+        accountButton.addEventListener('click', function() {
+            console.log('Popup before toggle:', accountPopup.classList);
+            accountPopup.classList.toggle('hidden');
+            console.log('Popup after toggle:', accountPopup.classList);
+        });
+
+        // Zamknij okienko, gdy użytkownik kliknie poza nim
+        document.addEventListener('click', function(event) {
+            if (!accountPopup.contains(event.target) && !accountButton.contains(event.target)) {
+                accountPopup.classList.add('hidden');
+            }
+        });
+    });
     </script>
 </body>
 </html>

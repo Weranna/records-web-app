@@ -102,7 +102,6 @@ p {
     font-size: 20px;
 }
 
-
 .popup {
     display: none;
     position: fixed;
@@ -147,8 +146,6 @@ p {
 .events-table .buttons {
     border: none;
 }
-
-
 
 .hidden {
     display: none;
@@ -317,4 +314,73 @@ p {
 .buttons button:hover,
 .buttons input[type="submit"]:hover {
     background-color: #27374D;
+}
+
+.user-menu {
+    position: relative;
+    margin-left: auto;
+    padding-right: 20px;
+}
+
+#accountPopup {
+    position: absolute;
+    right: 10px;
+    top: 80px;
+    background-color: white;
+    border: 1px solid #27374D;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 5000;
+    width: auto;
+    max-width: 90vw;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.user-popup-content {
+    background-color: #DDE6ED;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    width: 100%;
+    max-width: 150px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+    font-size: 14px;
+    overflow-wrap: break-word;
+}
+
+#accountPopup.hidden {
+    display: none;
+}
+
+.user-menu button {
+    background-color: #27374D;
+    color: white;
+    border: none;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 10px 20px;
+}
+
+.user-menu button:hover {
+    background-color: #526D82;
+}
+
+.userForm button {
+    border-radius: 5px; 
+    cursor: pointer;
+    color: white;
+    background-color: #526D82;
+    padding: 8px 15px;
+    font-size: 12px;
+    font-weight: bold;
+    border: none;
+    align-items: center;
+}
+
+.user-info {
+    margin-bottom: 10px;
 }
