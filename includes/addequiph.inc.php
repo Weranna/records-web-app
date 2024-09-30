@@ -53,7 +53,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } 
     
     try {
-        require_once "config/dbh.inc.php";
+        require_once 'classes/dbh.inc.php';
+
+        $db = new Dbh();
+        $pdo = $db->getConnection(); 
+
         // Wysłanie danych do bazy danych
         addEquip($pdo,$serNumber,$device,$manufacturer,$model,$location,$supplier,$purchaseDate,$warrantyDate,$reviewDate,$value,$status,$notes,$filePaths);
     

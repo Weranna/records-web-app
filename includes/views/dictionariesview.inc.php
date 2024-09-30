@@ -2,7 +2,10 @@
 declare(strict_types=1);
 
 require_once '../includes/config/config.php';
-require_once '../includes/config/dbh.inc.php';
+require_once '../includes/classes/dbh.inc.php';
+
+$db = new Dbh();
+$pdo = $db->getConnection(); 
 
 $tableMapping = [
     'Urządzenia' => 'devices',

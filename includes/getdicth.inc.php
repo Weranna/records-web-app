@@ -6,7 +6,10 @@ if (isset($_GET['table'], $_GET['id'])) {
     $table = $_GET['table'];
     $id = (int)$_GET['id'];
 
-    require_once 'config/dbh.inc.php';
+    require_once 'classes/dbh.inc.php';
+
+    $db = new Dbh();
+    $pdo = $db->getConnection(); 
 
     $row = getDictionary($pdo,$id,$table);
 

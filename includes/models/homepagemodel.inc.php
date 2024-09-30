@@ -1,7 +1,11 @@
 <?php
 declare(strict_types=1);
 require_once '../includes/config/config.php';
-require_once '../includes/config/dbh.inc.php';
+require_once '../includes/classes/dbh.inc.php';
+
+$db = new Dbh();
+$pdo = $db->getConnection(); 
+
 
 $userLocation = $_SESSION['user_location'];
 $userType = $_SESSION['user_type'];

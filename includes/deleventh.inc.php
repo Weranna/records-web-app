@@ -7,7 +7,11 @@ if (isset($_GET['id'])) {
     $id = $_GET['id'];
 
     try {
-        require_once "config/dbh.inc.php";
+        require_once 'classes/dbh.inc.php';
+
+        $db = new Dbh();
+        $pdo = $db->getConnection(); 
+
         delEvent($pdo,$id);
 
     } catch (PDOException $e) {

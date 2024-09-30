@@ -43,7 +43,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     try {
 
-        require_once "config/dbh.inc.php";
+        require_once 'classes/dbh.inc.php';
+
+        $db = new Dbh();
+        $pdo = $db->getConnection(); 
+
         editDictionary($table,$pdo,$columns,$values);
         
     } catch (PDOException $e) {

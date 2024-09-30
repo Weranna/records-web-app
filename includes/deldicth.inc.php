@@ -12,7 +12,11 @@ if (isset($_GET['id']) && isset($_GET['table'])) {
     $id = $_GET['id'];
 
     try {
-        require_once "config/dbh.inc.php";
+        require_once 'classes/dbh.inc.php';
+
+        $db = new Dbh();
+        $pdo = $db->getConnection(); 
+
         delDictionary($table,$pdo,$id);
 
     } catch (PDOException $e) {

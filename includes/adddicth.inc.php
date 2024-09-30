@@ -10,8 +10,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $table = $_POST['table'] ?? '';
 
-    require_once "config/dbh.inc.php";
-
     $tableMapping = [
         'devices' => ['name'],
         'manufacturers' => ['name'],
@@ -46,6 +44,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     try {
+
+        require_once 'classes/dbh.inc.php';
+
+        $db = new Dbh();
+        $pdo = $db->getConnection(); 
     
         addDictionary($table, $columns, $pdo, $values);
 

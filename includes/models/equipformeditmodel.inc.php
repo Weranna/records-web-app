@@ -1,10 +1,14 @@
 <?php
-require_once '../includes/config/dbh.inc.php';
+require_once '../includes/classes/dbh.inc.php';
 require_once '../includes/config/config.php';
+
+$db = new Dbh();
+$pdo = $db->getConnection(); 
 
 // Pobieranie numeru inw
 if (isset($_GET['nrInv'])) {
     $nrInv = $_GET['nrInv'];
+
 
     // Pobieranie danych o sprzęcie
     $query = "SELECT * FROM equipments WHERE nrInv = ?";

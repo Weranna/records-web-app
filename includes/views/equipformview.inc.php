@@ -1,6 +1,4 @@
-
 <?php
-require_once '../includes/config/dbh.inc.php';
 require_once '../includes/config/config.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

@@ -1,7 +1,5 @@
 <?php
 declare(strict_types=1);
-require_once '../includes/config/config.php';
-require_once '../includes/config/dbh.inc.php';
 require_once '../includes/models/homepagemodel.inc.php';
 
 if ($stmt->rowCount() > 0) {

@@ -40,7 +40,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     try {
         // Wysłanie danych do bazy danych
-        require_once "config/dbh.inc.php";
+        require_once 'classes/dbh.inc.php';
+
+        $db = new Dbh();
+        $pdo = $db->getConnection(); 
+
         addEvent($pdo,$nrInv, $event, $beginDate, $endDate, $description, $filePath);
     
     } catch (PDOException $e) {

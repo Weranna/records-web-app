@@ -1,5 +1,4 @@
 <?php
-require_once '../includes/config/dbh.inc.php';
 require_once '../includes/config/config.php';
 
 // Wyświetlanie komunikatu o błędzie/sukcesie
