@@ -1,8 +1,7 @@
 <?php
 declare(strict_types=1);
 require_once 'config/config.php';
-require_once 'controllers/equipcontr.inc.php';
-require_once 'models/equipmodel.inc.php';
+require_once 'classes/equipment.inc.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -11,7 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $_SESSION['errors'] = [];
 
-    // Pobieranie danych z formularza
+    // Fetch data from the form
     $serNumber = htmlspecialchars($_POST["serNumber"]);
     $device = htmlspecialchars($_POST["device"]);
     $manufacturer = htmlspecialchars($_POST["manufacturer"]);
@@ -25,14 +24,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $status = htmlspecialchars($_POST["status"]);
     $notes = htmlspecialchars($_POST["notes"]);
 
-    // Plik graficzny
-    $filePaths = handlePhoto();
-    
-    // Sprawdzenie, czy pola są puste
-    $errors = isInputEmpty($serNumber,$device,$manufacturer,$model,$location,$supplier,$purchaseDate,$warrantyDate,$reviewDate,$value,$status);
+    $equipment = new Equipment();
+    $errors = $equipment->isInputEmpty($serNumber, $device, $manufacturer, $model, $location, $supplier, $purchaseDate, $warrantyDate, $reviewDate, $value, $status);
 
     if (count($errors) > 0) {
-        // Przechowywanie wartości formularza w sesji
+      
         $_SESSION['formData'] = [
             'serNumber' => $serNumber,
             'device' => $device,
@@ -51,6 +47,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: ../public/equipform.php");
         exit();
     } 
+
+    $equipment->setDetails(
+        $serNumber,
+        $device,
+        $manufacturer,
+        $model,
+        $location,
+        $supplier,
+        $purchaseDate,
+        $warrantyDate,
+        $reviewDate,
+        $value,
+        $status,
+        $notes
+    );
+
+    $filePaths = $equipment->handlePhoto();
     
     try {
         require_once 'classes/dbh.inc.php';
@@ -58,15 +71,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $db = new Dbh();
         $pdo = $db->getConnection(); 
 
-        // Wysłanie danych do bazy danych
-        addEquip($pdo,$serNumber,$device,$manufacturer,$model,$location,$supplier,$purchaseDate,$warrantyDate,$reviewDate,$value,$status,$notes,$filePaths);
-    
+        $equipment->addEquip($filePaths,$pdo);
     } catch (PDOException $e) {
-        $_SESSION['errors'] []= $e->getMessage();
-            exit();
-        }
+        $_SESSION['errors'][] = $e->getMessage();
+        exit();
     }
- else {
+} else {
     header("Location: ../public/homepage.php");
     die();
 }

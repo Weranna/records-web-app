@@ -1,10 +1,12 @@
 <?php
 declare(strict_types=1);
 require_once 'config/config.php';
-require_once 'models/equipmodel.inc.php';
+require_once 'classes/equipment.inc.php';
 
 if (isset($_GET['nrInv'])) {
     $nrInv = htmlspecialchars($_GET['nrInv']);
+
+    $equipment = new Equipment();
 
     try {
         require_once 'classes/dbh.inc.php';
@@ -12,7 +14,7 @@ if (isset($_GET['nrInv'])) {
         $db = new Dbh();
         $pdo = $db->getConnection(); 
 
-        delEquip($pdo, $nrInv);
+        $equipment->delEquip($nrInv,$pdo);
 
     } catch (PDOException $e) {
         $_SESSION['errors'] []= $e->getMessage();

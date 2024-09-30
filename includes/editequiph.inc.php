@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 require_once 'config/config.php';
-require_once 'controllers/equipcontr.inc.php';
-require_once  'models/equipmodel.inc.php';
+require_once 'classes/equipment.inc.php';
 
+// Sprawdzenie, czy żądanie to POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     unset($_SESSION['errors']);
@@ -24,8 +24,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $status = htmlspecialchars($_POST["status"]);
     $notes = htmlspecialchars($_POST["notes"]);
     
-    // Sprawdzenie, czy pola są puste
-    $errors = isInputEmpty($serNumber,$device,$manufacturer,$model,$location,$supplier,$purchaseDate,$warrantyDate,$reviewDate,$value,$status);
+    $equipment = new Equipment();
+
+    $equipment->setDetails($serNumber, $device, $manufacturer, $model, $location, $supplier, $purchaseDate, $warrantyDate, $reviewDate, $value, $status, $notes);
+    
+    $errors = $equipment->isInputEmpty($serNumber, $device, $manufacturer, $model, $location, $supplier, $purchaseDate, $warrantyDate, $reviewDate, $value, $status);
     
     if (count($errors) > 0) {
         // Przechowywanie wartości formularza w sesji
@@ -51,21 +54,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } 
     
     try {
-        // Wysłanie danych do bazy danych
+
         require_once 'classes/dbh.inc.php';
-
-        $db = new Dbh();
-        $pdo = $db->getConnection(); 
-
-        editEquip($pdo,$serNumber, $device, $manufacturer, $model, $location, $supplier, $purchaseDate, $warrantyDate, $reviewDate, $value, $status, $notes, $nrInv);
+    $db = new Dbh();
+    $pdo = $db->getConnection();
+        
+        $equipment->editEquip($nrInv, $pdo);
         
     } catch (PDOException $e) {
         $_SESSION['errors'][] = $e->getMessage();
         header("Location: ../public/equipformedit.php?nrInv=$nrInv");
         exit();
-        }
     }
- else {
+} else {
     header("Location: ../public/homepage.php");
     die();
 }
