@@ -22,8 +22,8 @@ require_once '../includes/models/eventformmodel.inc.php';
         <label for="endDate">Data zakończenia</label>
         <input type="date" id="endDate" name="endDate" value="<?php echo htmlspecialchars($_SESSION['formData']['endDate'] ?? ''); ?>">
         <br>
-        <label for="file">Załącznik</label>
-        <input type="file" id="file" name="file" multiple>
+        <label for="files">Załącznik</label>
+        <input type="file" id="files" name="files[]" multiple>
         <br>
         <label for="description">Opis</label>
         <textarea name="description" id="description" placeholder="Opis"><?php echo htmlspecialchars($_SESSION['formData']['description'] ?? ''); ?></textarea>

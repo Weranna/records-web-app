@@ -1,11 +1,9 @@
 <?php
 declare(strict_types=1);
 require_once 'config/config.php';
-require_once 'controllers/eventcontr.inc.php';
-require_once 'models/eventmodel.inc.php';
+require_once 'classes/event.inc.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
     unset($_SESSION['errors']);
     unset($_SESSION['formData']);
 
@@ -15,51 +13,48 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $_SESSION['errors'] = [];
 
     // Pobieranie danych z formularza
-    $event = htmlspecialchars($_POST['event']);
-    $beginDate = htmlspecialchars($_POST['beginDate']);
-    $endDate = htmlspecialchars($_POST['endDate']);
-    $description = htmlspecialchars($_POST['description']);
-    
+    $eventName = $_POST['event'] ?? '';
+    $beginDate = $_POST['beginDate'] ?? '';
+    $endDate = $_POST['endDate'] ?? '';
+    $description = $_POST['description'] ?? '';
+
     if (!$nrInv) {
-        $_SESSION['errors'] [] = 'pusto';
+        $_SESSION['errors'][] = 'Numer inwentarzowy jest wymagany.';
         header("Location: ../public/eventform.php");
         exit();
-     }
+    }
 
-    // Plik
-    $filePaths = handleFile();
+    $event = new Event($eventName, $beginDate, $endDate, $description);
 
-    // Sprawdzenie, czy pola są puste
-    $errors = isInputEmpty($event,$beginDate,$endDate,$description);
+    $validationErrors = $event->validate();
 
-    if (count($errors) > 0) {
-        // Przechowywanie wartości formularza w sesji
+    if (count($validationErrors) > 0) {
         $_SESSION['formData'] = [
-            'event' => $event,
+            'event' => $eventName,
             'beginDate' => $beginDate,
             'endDate' => $endDate,
             'description' => $description,
         ];
-        $_SESSION['errors'] = $errors;
+        $_SESSION['errors'] = $validationErrors;
         header("Location: ../public/eventform.php");
         exit();
-    } 
-    
-    try {
-        // Wysłanie danych do bazy danych
-        require_once 'classes/dbh.inc.php';
-
-        $db = new Dbh();
-        $pdo = $db->getConnection(); 
-
-        addEvent($pdo,$nrInv, $event, $beginDate, $endDate, $description, $filePaths);
-    
-    } catch (PDOException $e) {
-        $_SESSION['errors'] [] = $e->getMessage();
-        echo $e->getMessage();
-        }
     }
- else {
-    header("Location: ../public/homepage.php");
-    die();
+
+    try {
+        $event->handleFileUpload();
+
+        require_once 'classes/dbh.inc.php';
+        $db = new Dbh();
+        $pdo = $db->getConnection();
+        $event->addToDatabase($pdo, $nrInv);
+        
+        header("Location: ../public/homepage.php");
+        exit();
+
+    } catch (Exception $e) {
+        $_SESSION['errors'][] = $e->getMessage();
+        header("Location: ../public/eventform.php");
+        exit();
+    }
 }
+
