@@ -2,25 +2,62 @@
 declare(strict_types=1);
 header('Content-Type: application/json');
 require_once 'config/config.php';
-require_once 'controllers/dictcontr.inc.php';
-require_once 'models/dictmodel.inc.php';
+require_once 'classes/dictionary.inc.php';
+require_once 'classes/user.inc.php';
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     unset($_SESSION['errors']);
 
     $table = $_POST['table'] ?? '';
 
-    $tableMapping = [
-        'devices' => ['name'],
-        'manufacturers' => ['name'],
-        'suppliers' => ['name', 'address', 'phone', 'email'],
-        'locations' => ['name'],
-        'statuses' => ['name'],
-        'users' => ['login', 'pwd', 'user_group', 'email', 'location'],
-        'events' => ['name']
-    ];
+    $dictionary = null;
 
-    $validationResult = validateForm($_POST, $tableMapping[$table]);
+    // Ustalenie, która klasa słownika powinna być użyta
+    switch ($table) {
+        case 'devices':
+            $dictionary = new DeviceDictionary();
+            break;
+        case 'manufacturers':
+            $dictionary = new ManufacturerDictionary();
+            break;
+        case 'suppliers':
+            $dictionary = new SupplierDictionary();
+            break;
+        case 'locations':
+            $dictionary = new LocationDictionary();
+            break;
+        case 'statuses':
+            $dictionary = new StatusDictionary();
+            break;
+        case 'users':
+            if (isset($_POST['login'], $_POST['pwd'], $_POST['email'], $_POST['user_group'], $_POST['location'])) {
+                $login = htmlspecialchars($_POST['login']);
+                $email = htmlspecialchars($_POST['email']);
+                $userType = htmlspecialchars($_POST['user_group']);
+                $userLocation = htmlspecialchars($_POST['location']);
+                
+                $hashedPassword = User::hashPassword($_POST['pwd']);
+                $dictionary = new User($login, $hashedPassword, $email, $userType, $userLocation);
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'Brak wymaganych danych dla użytkownika.']);
+                exit();
+            }
+            break;
+        case 'events':
+            $dictionary = new EventDictionary();
+            break;
+        default:
+            echo json_encode(['status' => 'error', 'message' => 'Nieznany typ słownika.']);
+            exit();
+    }
+
+    $validationResult = [];
+
+    if ($table === 'users') {
+        $validationResult['errors'] = User::validateUserData($_POST);
+    } else {
+        $validationResult = $dictionary->validate($_POST);
+    }
 
     if (!empty($validationResult['errors'])) {
         $_SESSION['errors'] = $validationResult['errors'];
@@ -28,32 +65,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit();
     }
 
-    $columns = array_keys($validationResult['values']);
-    $values = array_values($validationResult['values']);
-
-    // Obsługuje hasło i walidację e-maila
-    if ($table === 'users') {
-
-        $values = hashPwd($values, $columns);
-
-        if(isEmailInvalid($values[array_search('email', $columns)])) {
-            $_SESSION['errors'] [] = 'Podaj poprawny email';
-            echo json_encode(['status' => 'error', 'message' => $_SESSION['errors']]);
-            exit();
-        }
-    }
-
     try {
-
         require_once 'classes/dbh.inc.php';
-
+        
         $db = new Dbh();
-        $pdo = $db->getConnection(); 
-    
-        addDictionary($table, $columns, $pdo, $values);
-
+        $pdo = $db->getConnection();
+        
+        if($table === 'users') {
+            $dictionary->addToDatabase($pdo);
+        } else {
+            $dictionary->add($pdo);
+        }
     } catch (PDOException $e) {
-
-        handleDatabaseError($e, $tableMapping[$table], $validationResult);
+        $dictionary->handleDatabaseError($e);
     }
 }

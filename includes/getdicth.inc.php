@@ -1,6 +1,6 @@
 <?php
 require_once 'config/config.php';
-require_once 'models/dictmodel.inc.php';
+require_once 'classes/dictionary.inc.php';
 
 if (isset($_GET['table'], $_GET['id'])) {
     $table = $_GET['table'];
@@ -11,7 +11,7 @@ if (isset($_GET['table'], $_GET['id'])) {
     $db = new Dbh();
     $pdo = $db->getConnection(); 
 
-    $row = getDictionary($pdo,$id,$table);
+    $row = Dictionary::get($pdo, $table, $id);
 
     if ($row) {
         echo json_encode(['status' => 'success', 'formData' => $row]);

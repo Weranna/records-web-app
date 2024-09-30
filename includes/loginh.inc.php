@@ -35,7 +35,6 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         }
 
         $user = new User(
-            (int)$result['id'],
             $result['login'],
             $result['pwd'],
             $result['email'],
@@ -46,9 +45,9 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         if ($user->verifyPassword($password)) {
       
             $newSessionId = session_create_id();
-            session_id($newSessionId . "_" . $user->getId());
+            session_id($newSessionId . "_" . $result['id']);
 
-            $_SESSION["user_id"] = $user->getId();
+            $_SESSION["user_id"] = $result['id'];
             $_SESSION['login'] = htmlspecialchars($user->getLogin());
             $_SESSION['user_type'] = htmlspecialchars($user->getUserType());
             $_SESSION['user_location'] = htmlspecialchars($user->getUserLocation());
