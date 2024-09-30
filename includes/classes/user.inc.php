@@ -26,6 +26,10 @@ class User {
         return $this->login;
     }
 
+    public function getEmail(): string {
+        return $this->email;
+    }
+
     public function getUserType(): string {
         return $this->userType;
     }
@@ -36,5 +40,10 @@ class User {
 
     public function verifyPassword(string $password): bool {
         return password_verify($password, $this->hashedPassword);
+    }
+
+    public function __toString(): string {
+        return sprintf("User [ID: %d, Login: %s, Email: %s, UserType: %s, Location: %s]", 
+            $this->id, $this->login, $this->email, $this->userType, $this->userLocation);
     }
 }
